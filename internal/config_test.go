@@ -1,4 +1,4 @@
-package main
+package iwrapper
 
 import "github.com/google/go-cmp/cmp"
 
