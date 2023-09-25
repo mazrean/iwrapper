@@ -16,7 +16,7 @@ func TestParseTarget(t *testing.T) {
 		description: "funcNameなしでも正しくパースできる",
 		target:      "normal.go",
 		expectedResults: []*ParseResult{{
-			FuncName:   "NormalWrapper",
+			FuncName:   "",
 			StructName: "Normal",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
@@ -62,7 +62,7 @@ func TestParseTarget(t *testing.T) {
 		description: "別fileで宣言しても正しくパースできる",
 		target:      "other_file_declare.go",
 		expectedResults: []*ParseResult{{
-			FuncName:   "OtherFileDeclareWrapper",
+			FuncName:   "",
 			StructName: "OtherFileDeclare",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
@@ -80,7 +80,7 @@ func TestParseTarget(t *testing.T) {
 		description: "requireが複数あっても正しくパースできる",
 		target:      "multi_require.go",
 		expectedResults: []*ParseResult{{
-			FuncName:   "MultiRequireWrapper",
+			FuncName:   "",
 			StructName: "MultiRequire",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
@@ -107,7 +107,7 @@ func TestParseTarget(t *testing.T) {
 		description: "optionalが複数あっても正しくパースできる",
 		target:      "multi_optional.go",
 		expectedResults: []*ParseResult{{
-			FuncName:   "MultiOptionalWrapper",
+			FuncName:   "",
 			StructName: "MultiOptional",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
@@ -134,7 +134,7 @@ func TestParseTarget(t *testing.T) {
 		description: "targetが複数あっても正しくパースできる",
 		target:      "multi_target.go",
 		expectedResults: []*ParseResult{{
-			FuncName:   "MultiTarget1Wrapper",
+			FuncName:   "",
 			StructName: "MultiTarget1",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
@@ -151,7 +151,7 @@ func TestParseTarget(t *testing.T) {
 				name: "Hijacker",
 			}},
 		}, {
-			FuncName:   "MultiTarget2Wrapper",
+			FuncName:   "",
 			StructName: "MultiTarget2",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
@@ -172,7 +172,7 @@ func TestParseTarget(t *testing.T) {
 		description: "括弧内に型定義が1つあっても正しくパースできる",
 		target:      "type_in_bracket_outside_comment.go",
 		expectedResults: []*ParseResult{{
-			FuncName:   "TypeInBracketOutsideCommentWrapper",
+			FuncName:   "",
 			StructName: "TypeInBracketOutsideComment",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
@@ -193,7 +193,7 @@ func TestParseTarget(t *testing.T) {
 		description: "括弧内に型定義があってコメントが括弧内でも正しくパースできる",
 		target:      "type_in_bracket_inside_comment.go",
 		expectedResults: []*ParseResult{{
-			FuncName:   "TypeInBracketInsideCommentWrapper",
+			FuncName:   "",
 			StructName: "TypeInBracketInsideComment",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
