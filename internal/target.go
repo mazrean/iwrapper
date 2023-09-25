@@ -23,7 +23,7 @@ const (
 )
 
 type ParseResult struct {
-	FuncName                               string
+	FuncName, StructName                   string
 	RequiredInterfaces, OptionalInterfaces []*Interface
 }
 
@@ -104,6 +104,8 @@ func ParseTarget(r io.Reader) (string, []*ParseResult, error) {
 				docs = append(docs, typeSpec.Doc.List...)
 			}
 
+			structName := typeSpec.Name.Name
+
 			var funcName string
 			for _, comment := range docs {
 				if !strings.HasPrefix(comment.Text, targetDirectivePrefix) {
@@ -115,7 +117,7 @@ func ParseTarget(r io.Reader) (string, []*ParseResult, error) {
 
 				funcName, ok = annotationTag.Lookup("func")
 				if !ok {
-					funcName = fmt.Sprintf("%sWrapper", typeSpec.Name.Name)
+					funcName = fmt.Sprintf("%sWrapper", structName)
 				}
 				break
 			}
@@ -190,6 +192,7 @@ func ParseTarget(r io.Reader) (string, []*ParseResult, error) {
 
 			results = append(results, &ParseResult{
 				FuncName:           funcName,
+				StructName:         structName,
 				RequiredInterfaces: requireInterfaces,
 				OptionalInterfaces: optionalInterfaces,
 			})

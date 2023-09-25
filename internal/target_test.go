@@ -16,7 +16,8 @@ func TestParseTarget(t *testing.T) {
 		description: "funcNameなしでも正しくパースできる",
 		target:      "normal.go",
 		expectedResults: []*ParseResult{{
-			FuncName: "NormalWrapper",
+			FuncName:   "NormalWrapper",
+			StructName: "Normal",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
 					name: "http",
@@ -36,7 +37,8 @@ func TestParseTarget(t *testing.T) {
 		description: "funcNameありでも正しくパースできる",
 		target:      "func_name.go",
 		expectedResults: []*ParseResult{{
-			FuncName: "FuncNameWrapFunc",
+			FuncName:   "FuncNameWrapFunc",
+			StructName: "FuncName",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
 					name: "http",
@@ -60,7 +62,8 @@ func TestParseTarget(t *testing.T) {
 		description: "別fileで宣言しても正しくパースできる",
 		target:      "other_file_declare.go",
 		expectedResults: []*ParseResult{{
-			FuncName: "OtherFileDeclareWrapper",
+			FuncName:   "OtherFileDeclareWrapper",
+			StructName: "OtherFileDeclare",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
 					name: "http",
@@ -77,7 +80,8 @@ func TestParseTarget(t *testing.T) {
 		description: "requireが複数あっても正しくパースできる",
 		target:      "multi_require.go",
 		expectedResults: []*ParseResult{{
-			FuncName: "MultiRequireWrapper",
+			FuncName:   "MultiRequireWrapper",
+			StructName: "MultiRequire",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
 					name: "http",
@@ -103,7 +107,8 @@ func TestParseTarget(t *testing.T) {
 		description: "optionalが複数あっても正しくパースできる",
 		target:      "multi_optional.go",
 		expectedResults: []*ParseResult{{
-			FuncName: "MultiOptionalWrapper",
+			FuncName:   "MultiOptionalWrapper",
+			StructName: "MultiOptional",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
 					name: "http",
@@ -129,7 +134,8 @@ func TestParseTarget(t *testing.T) {
 		description: "targetが複数あっても正しくパースできる",
 		target:      "multi_target.go",
 		expectedResults: []*ParseResult{{
-			FuncName: "MultiTarget1Wrapper",
+			FuncName:   "MultiTarget1Wrapper",
+			StructName: "MultiTarget1",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
 					name: "http",
@@ -145,7 +151,8 @@ func TestParseTarget(t *testing.T) {
 				name: "Hijacker",
 			}},
 		}, {
-			FuncName: "MultiTarget2Wrapper",
+			FuncName:   "MultiTarget2Wrapper",
+			StructName: "MultiTarget2",
 			RequiredInterfaces: []*Interface{{
 				pkg: &Package{
 					name: "http",
