@@ -2,6 +2,8 @@
 [![](https://github.com/mazrean/iwrapper/workflows/Release/badge.svg)](https://github.com/mazrean/iwrapper/actions)
 [![go report](https://goreportcard.com/badge/mazrean/iwrapper)](https://goreportcard.com/report/mazrean/iwrapper)
 
+[English](./README.md)
+
 Goのinterfaceのラッパーを作成するのを補助するツールです。
 
 ## Motivation
@@ -72,7 +74,7 @@ _, ok = WrapResponseWriterWithIWrapper(rw).(http.Hijacker)
 2. `go generate`を実行します
    - `iwrapper_<設定ファイル名>.go`にwrap用関数(`ResponseWriterWrapper`)が生成されます
 
-詳細な生成コード・生成コードの使用例は[`/example/`](https://github.com/mazrean/iwrapper/tree/main/example/)にあります。
+詳細な生成コード・生成コードの使用例は[`/example/`](./example/)にあります。
 
 ## License
 

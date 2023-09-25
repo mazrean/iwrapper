@@ -73,7 +73,7 @@ Consider wrapping `http.ResponseWriter` so that the results of type assertions f
 2. Execute `go generate`.
    - This produces the wrapping function (`ResponseWriterWrapper`) in `iwrapper_<configuration filename>.go`.
 
-Detailed generated code and its usage examples are available in [`/example/`](https://github.com/mazrean/iwrapper/tree/main/example/).
+Detailed generated code and its usage examples are available in [`/example/`](./example/).
 
 ## License
 
