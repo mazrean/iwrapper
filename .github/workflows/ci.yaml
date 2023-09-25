@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+
+env:
+  APP_NAME: iwrapper
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v4
+        with:
+          args: release --clean --snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: ./dist/*
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+      - name: Install dependencies
+        run: go mod download
+      - name: Run tests
+        run: go test -v -coverprofile=./coverage.txt -race -vet=off ./...
+      - name: Upload coverage data
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage.txt
+          path: ./coverage.txt
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: golangci-lint
+        uses: reviewdog/action-golangci-lint@v2.3
+        with:
+          go_version_file: go.mod
+          reporter: github-pr-check
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_error: true
