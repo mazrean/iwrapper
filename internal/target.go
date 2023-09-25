@@ -81,7 +81,7 @@ func ParseTarget(r io.Reader) (string, []*ParseResult, error) {
 	var results []*ParseResult
 	for _, decl := range f.Decls {
 		genDecl, ok := decl.(*ast.GenDecl)
-		if !ok || genDecl == nil || genDecl.Tok != token.TYPE || genDecl.Doc == nil {
+		if !ok || genDecl == nil || genDecl.Tok != token.TYPE {
 			continue
 		}
 
@@ -106,11 +106,15 @@ func ParseTarget(r io.Reader) (string, []*ParseResult, error) {
 
 			structName := typeSpec.Name.Name
 
-			var funcName string
+			var (
+				funcName string
+				targeted = false
+			)
 			for _, comment := range docs {
 				if !strings.HasPrefix(comment.Text, targetDirectivePrefix) {
 					continue
 				}
+				targeted = true
 
 				annotationTagText := strings.TrimPrefix(comment.Text, targetDirectivePrefix)
 				annotationTag := reflect.StructTag(annotationTagText)
@@ -120,6 +124,9 @@ func ParseTarget(r io.Reader) (string, []*ParseResult, error) {
 					funcName = fmt.Sprintf("%sWrapper", structName)
 				}
 				break
+			}
+			if !targeted {
+				continue
 			}
 
 			requireInterfaces := []*Interface{}

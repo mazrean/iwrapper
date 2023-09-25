@@ -168,12 +168,54 @@ func TestParseTarget(t *testing.T) {
 				name: "Flusher",
 			}},
 		}},
+	}, {
+		description: "括弧内に型定義が1つあっても正しくパースできる",
+		target:      "type_in_bracket_outside_comment.go",
+		expectedResults: []*ParseResult{{
+			FuncName:   "TypeInBracketOutsideCommentWrapper",
+			StructName: "TypeInBracketOutsideComment",
+			RequiredInterfaces: []*Interface{{
+				pkg: &Package{
+					name: "http",
+					path: "net/http",
+				},
+				name: "ResponseWriter",
+			}},
+			OptionalInterfaces: []*Interface{{
+				pkg: &Package{
+					name: "http",
+					path: "net/http",
+				},
+				name: "Hijacker",
+			}},
+		}},
+	}, {
+		description: "括弧内に型定義があってコメントが括弧内でも正しくパースできる",
+		target:      "type_in_bracket_inside_comment.go",
+		expectedResults: []*ParseResult{{
+			FuncName:   "TypeInBracketInsideCommentWrapper",
+			StructName: "TypeInBracketInsideComment",
+			RequiredInterfaces: []*Interface{{
+				pkg: &Package{
+					name: "http",
+					path: "net/http",
+				},
+				name: "ResponseWriter",
+			}},
+			OptionalInterfaces: []*Interface{{
+				pkg: &Package{
+					name: "http",
+					path: "net/http",
+				},
+				name: "Hijacker",
+			}},
+		}},
 	}}
 
 	for _, testCase := range testCases {
 		testCase := testCase
 		t.Run(testCase.description, func(t *testing.T) {
-			t.Parallel()
+			//t.Parallel()
 
 			target, err := os.Open("testdata/" + testCase.target)
 			if err != nil {
