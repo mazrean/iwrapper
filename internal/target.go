@@ -89,6 +89,36 @@ func ParseTarget(r io.Reader) (string, []*ParseResult, error) {
 				RequiredInterfaces: requireInterfaces,
 				OptionalInterfaces: optionalInterfaces,
 			})
+		} else {
+			for _, spec := range genDecl.Specs {
+				typeSpec, ok := spec.(*ast.TypeSpec)
+				if !ok || typeSpec == nil || typeSpec.Name == nil || typeSpec.Doc == nil {
+					continue
+				}
+				typeName := typeSpec.Name.Name
+
+				funcName, targeted := checkIsTargeted(typeSpec.Doc.List)
+				if !targeted {
+					continue
+				}
+
+				interfaceType, ok := typeSpec.Type.(*ast.InterfaceType)
+				if !ok || interfaceType == nil || interfaceType.Methods == nil {
+					return "", nil, fmt.Errorf("non-interface type(%s) is targeted", typeName)
+				}
+
+				requireInterfaces, optionalInterfaces, err := createInterfaces(fset, pkgMap, interfaceType.Methods.List)
+				if err != nil {
+					return "", nil, fmt.Errorf("failed to create interfaces: %w", err)
+				}
+
+				results = append(results, &ParseResult{
+					FuncName:           funcName,
+					StructName:         typeName,
+					RequiredInterfaces: requireInterfaces,
+					OptionalInterfaces: optionalInterfaces,
+				})
+			}
 		}
 	}
 

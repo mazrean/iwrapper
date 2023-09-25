@@ -210,6 +210,44 @@ func TestParseTarget(t *testing.T) {
 				name: "Hijacker",
 			}},
 		}},
+	}, {
+		description: "targetが複数括弧内にあっても正しくパースできる",
+		target:      "multi_target_in_bracket.go",
+		expectedResults: []*ParseResult{{
+			FuncName:   "",
+			StructName: "MultiTargetInBracket1",
+			RequiredInterfaces: []*Interface{{
+				pkg: &Package{
+					name: "http",
+					path: "net/http",
+				},
+				name: "ResponseWriter",
+			}},
+			OptionalInterfaces: []*Interface{{
+				pkg: &Package{
+					name: "http",
+					path: "net/http",
+				},
+				name: "Hijacker",
+			}},
+		}, {
+			FuncName:   "",
+			StructName: "MultiTargetInBracket2",
+			RequiredInterfaces: []*Interface{{
+				pkg: &Package{
+					name: "http",
+					path: "net/http",
+				},
+				name: "ResponseWriter",
+			}},
+			OptionalInterfaces: []*Interface{{
+				pkg: &Package{
+					name: "http",
+					path: "net/http",
+				},
+				name: "Flusher",
+			}},
+		}},
 	}}
 
 	for _, testCase := range testCases {
