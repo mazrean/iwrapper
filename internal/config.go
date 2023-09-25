@@ -7,14 +7,16 @@ import (
 )
 
 type Package struct {
-	name string
-	path string
+	name          string
+	path          string
+	isRequireName bool
 }
 
-func NewPackage(name, path string) *Package {
+func NewPackage(name, path string, isRequireName bool) *Package {
 	return &Package{
-		name: name,
-		path: path,
+		name:          name,
+		path:          path,
+		isRequireName: isRequireName,
 	}
 }
 
@@ -27,8 +29,17 @@ func (p *Package) Expr() ast.Expr {
 }
 
 func (p *Package) ImportSpec() *ast.ImportSpec {
+	if p.isRequireName {
+		return &ast.ImportSpec{
+			Name: ast.NewIdent(p.name),
+			Path: &ast.BasicLit{
+				Kind:  token.STRING,
+				Value: strconv.Quote(p.path),
+			},
+		}
+	}
+
 	return &ast.ImportSpec{
-		Name: ast.NewIdent(p.name),
 		Path: &ast.BasicLit{
 			Kind:  token.STRING,
 			Value: strconv.Quote(p.path),

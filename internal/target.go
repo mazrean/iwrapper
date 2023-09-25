@@ -153,11 +153,11 @@ func createImportMap(imports []*ast.ImportSpec) map[string]*Package {
 
 			for _, pkg := range pkgs {
 				name := pkg.Name
-				pkgMap[name] = NewPackage(name, path)
+				pkgMap[name] = NewPackage(name, path, false)
 			}
 		} else {
 			name := impt.Name.Name
-			pkgMap[name] = NewPackage(name, path)
+			pkgMap[name] = NewPackage(name, path, true)
 		}
 	}
 
