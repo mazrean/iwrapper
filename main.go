@@ -9,18 +9,34 @@ import (
 )
 
 var (
-	src, dst string
+	version          = "Unknown"
+	revision         = "Unknown"
+	versionFlag      bool
+	srcFlag, dstFlag string
 )
 
 func init() {
-	flag.StringVar(&src, "src", "", "source file path")
-	flag.StringVar(&dst, "dst", "", "destination file path")
+	flag.BoolVar(&versionFlag, "version", false, "show version")
+	flag.StringVar(&srcFlag, "src", "", "source file path")
+	flag.StringVar(&dstFlag, "dst", "", "destination file path")
 }
 
 func main() {
 	flag.Parse()
 
-	f, err := os.Open(src)
+	if versionFlag {
+		fmt.Printf("iwrapper %s (revision: %s)\n", version, revision)
+		return
+	}
+
+	if len(srcFlag) == 0 {
+		panic("source file path is required")
+	}
+	if len(dstFlag) == 0 {
+		panic("destination file path is required")
+	}
+
+	f, err := os.Open(srcFlag)
 	if err != nil {
 		panic(fmt.Errorf("failed to open source file: %w", err))
 	}
@@ -36,7 +52,7 @@ func main() {
 		panic(fmt.Errorf("failed to convert: %w", err))
 	}
 
-	f, err = os.Create(dst)
+	f, err = os.Create(dstFlag)
 	if err != nil {
 		panic(fmt.Errorf("failed to create destination file: %w", err))
 	}
