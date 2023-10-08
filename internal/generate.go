@@ -213,6 +213,7 @@ func getBody(valueIdent, wrapFuncIdent *ast.Ident, valueType ast.Expr, optionalI
 				})
 				elementsExprs = append(elementsExprs, wrappedValueIdent)
 			}
+			tmpI >>= 1
 		}
 
 		caseClauseStmts = append(caseClauseStmts, &ast.CaseClause{

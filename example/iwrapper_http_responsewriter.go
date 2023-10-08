@@ -29,35 +29,35 @@ func ResponseWriterWrapper(v http.ResponseWriter, wrapper func(http.ResponseWrit
 		return struct {
 			http.ResponseWriter
 			http.Hijacker
-			http.CloseNotifier
-			http.Flusher
-		}{wrapped, wrapped, wrapped, wrapped}
+		}{wrapped, wrapped}
 	case 0b10:
 		return struct {
 			http.ResponseWriter
-		}{wrapped}
+			http.CloseNotifier
+		}{wrapped, wrapped}
 	case 0b11:
 		return struct {
 			http.ResponseWriter
 			http.Hijacker
 			http.CloseNotifier
-			http.Flusher
-		}{wrapped, wrapped, wrapped, wrapped}
+		}{wrapped, wrapped, wrapped}
 	case 0b100:
 		return struct {
 			http.ResponseWriter
-		}{wrapped}
+			http.Flusher
+		}{wrapped, wrapped}
 	case 0b101:
 		return struct {
 			http.ResponseWriter
 			http.Hijacker
-			http.CloseNotifier
 			http.Flusher
-		}{wrapped, wrapped, wrapped, wrapped}
+		}{wrapped, wrapped, wrapped}
 	case 0b110:
 		return struct {
 			http.ResponseWriter
-		}{wrapped}
+			http.CloseNotifier
+			http.Flusher
+		}{wrapped, wrapped, wrapped}
 	case 0b111:
 		return struct {
 			http.ResponseWriter
