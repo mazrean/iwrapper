@@ -11,6 +11,6 @@ type ResponseWriter interface {
 	//iwrapper:require
 	http.ResponseWriter
 	http.Hijacker
-	http.Pusher
+	http.CloseNotifier //nolint:staticcheck // SA1019: example code demonstrating interface wrapping
 	http.Flusher
 }

@@ -28,8 +28,8 @@ func (w MyResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	return w.ResponseWriter.(http.Hijacker).Hijack()
 }
 
-func (w MyResponseWriter) Push(target string, opts *http.PushOptions) error {
-	return w.ResponseWriter.(http.Pusher).Push(target, opts)
+func (w MyResponseWriter) CloseNotify() <-chan bool {
+	return w.ResponseWriter.(http.CloseNotifier).CloseNotify() //nolint:staticcheck // SA1019: example code demonstrating interface wrapping
 }
 
 func (w MyResponseWriter) Flush() {
