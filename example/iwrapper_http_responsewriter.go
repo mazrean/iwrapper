@@ -14,7 +14,7 @@ func ResponseWriterWrapper(v http.ResponseWriter, wrapper func(http.ResponseWrit
 	if _, ok := v.(http.Hijacker); ok {
 		i |= i0
 	}
-	if _, ok := v.(http.CloseNotifier); ok {
+	if _, ok := v.(http.Pusher); ok {
 		i |= i1
 	}
 	if _, ok := v.(http.Flusher); ok {
@@ -33,13 +33,13 @@ func ResponseWriterWrapper(v http.ResponseWriter, wrapper func(http.ResponseWrit
 	case 0b10:
 		return struct {
 			http.ResponseWriter
-			http.CloseNotifier
+			http.Pusher
 		}{wrapped, wrapped}
 	case 0b11:
 		return struct {
 			http.ResponseWriter
 			http.Hijacker
-			http.CloseNotifier
+			http.Pusher
 		}{wrapped, wrapped, wrapped}
 	case 0b100:
 		return struct {
@@ -55,14 +55,14 @@ func ResponseWriterWrapper(v http.ResponseWriter, wrapper func(http.ResponseWrit
 	case 0b110:
 		return struct {
 			http.ResponseWriter
-			http.CloseNotifier
+			http.Pusher
 			http.Flusher
 		}{wrapped, wrapped, wrapped}
 	case 0b111:
 		return struct {
 			http.ResponseWriter
 			http.Hijacker
-			http.CloseNotifier
+			http.Pusher
 			http.Flusher
 		}{wrapped, wrapped, wrapped, wrapped}
 	}

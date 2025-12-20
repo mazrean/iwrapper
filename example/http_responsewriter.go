@@ -11,6 +11,6 @@ type ResponseWriter interface {
 	//iwrapper:require
 	http.ResponseWriter
 	http.Hijacker
-	http.CloseNotifier
+	http.Pusher
 	http.Flusher
 }

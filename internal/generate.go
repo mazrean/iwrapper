@@ -107,7 +107,9 @@ func Generate(w io.Writer, pkgName string, confs []*GenerateConfig) error {
 		Decls: decls,
 	}
 
-	format.Node(w, fset, &f)
+	if err := format.Node(w, fset, &f); err != nil {
+		return fmt.Errorf("failed to format node: %w", err)
+	}
 
 	return nil
 }

@@ -40,7 +40,7 @@ func main() {
 	if err != nil {
 		panic(fmt.Errorf("failed to open source file: %w", err))
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	pkgName, results, err := iwrapper.ParseTarget(f)
 	if err != nil {
@@ -56,7 +56,7 @@ func main() {
 	if err != nil {
 		panic(fmt.Errorf("failed to create destination file: %w", err))
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	if err := iwrapper.Generate(f, pkgName, confs); err != nil {
 		panic(fmt.Errorf("failed to generate wrapper: %w", err))
